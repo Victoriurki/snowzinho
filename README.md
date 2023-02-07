@@ -5,3 +5,5 @@
 (2) - Compile it to a .exe file with 'dart compile exe .\lib\file.dart -o bin\file.exe'
 (3) - Insert your bin folder path into the environment variables
 (4) - If it is the first script, restart your computer. Use your script
+
+[!] - your generated files will be insede the 'gen/' directory

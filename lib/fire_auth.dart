@@ -5,7 +5,7 @@ void main(List<String> args) async {
   File file;
   final String fileName;
 
-  dir = await Directory('lib/fire_auth').create(recursive: true);
+  dir = await Directory('gen/fire_auth').create(recursive: true);
   fileName = '${dir.path}/fire_auth.dart';
   file = await File(fileName).create(recursive: true);
   file = await File(fileName).writeAsString(firebaseAuthText);
@@ -20,17 +20,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginPage(),
+      home: SigninPage(),
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
+class SigninPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SigninPageState createState() => _SigninPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SigninPageState extends State<SigninPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -47,6 +47,12 @@ class _LoginPageState extends State<LoginPage> {
             email: _email!, password: _password!);
         User user = result.user!;
         print(user.email);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print('The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          print('The account already exists for that email.');
+        }
       } catch (e) {
         print(e.toString());
       }
